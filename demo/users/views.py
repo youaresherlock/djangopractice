@@ -1,8 +1,10 @@
+import os
 import json
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views import View
+from demo import settings
 
 
 def renderpage(request):
@@ -33,8 +35,7 @@ def say(request):
 
 # 通过URL路径传参
 def routerparams(request, city, year):
-    print(city)
-    print(year)
+    print(city, year)
     return HttpResponse("router")
 
 
@@ -69,5 +70,96 @@ class URLParamView(View):
 
     def get(self, request, phone_num):
         print(phone_num)
+        # content响应体 content_type响应体数据类型, 默认text/html status状态码,默认200
         return HttpResponse("提取路径参数")
+
+
+class DownloadPictureView(View):
+    """下载图片
+    """
+    def get(self, request):
+        try:
+            data = request.GET
+            file_name = data.get("file_name")
+            image_path = os.path.join(settings.BASE_DIR, "static_files/{}".format(file_name))
+            with open(image_path, "rb") as f:
+                image_data = f.read()
+            return HttpResponse(image_data, content_type="image/png")
+        except Exception as e:
+            print(e)
+            return HttpResponse(str(e))
+
+
+class Response1View(View):
+    """演示HttpResponse
+    提示:
+        默认HttpResponse响应html字符串, 但是如果我们要响应html字符串以外的数据
+        该如何实现?
+        eg: 响应图片
+        HttpResponse(响应体: 图片的原始数据, content_type='image/jpg)
+        def read_img(request):
+            try:
+            data = request.GET
+            file_name = data.get("file_name")
+            image_path = os.path.join(settings.BASE_DIR, "static/resume/images/{}".format(file_name)
+            with open(image_path, 'rb') as f:
+                image_data = f.read()
+            return HttpResponse(image_data, content_type="image/png")
+        except Exception as e:
+            print(e)
+            return HttpResponse(str(e))
+    """
+
+    def get(self, request):
+        return HttpResponse("演示HttpResponse")
+
+
+class JSONResponseView(View):
+    """演示JsonResponse
+    GET http://127.0.0.1:8000/users/resp_json/
+    """
+    def get(self, request):
+        """返回JSON数据"""
+        dict_data = {
+            'name': 'clarence',
+            'age': 18
+        }
+        # safe = false, content可以是个列表
+        return JsonResponse(dict_data)
+
+
+class IndexView(View):
+    """"首页视图
+    GET http://127.0.0.1:8000/users/index_page/
+    """
+    def get(self, request):
+        return HttpResponse("假装这是个首页")
+
+
+class LoginRedirectView(View):
+    """测试成功登陆后，进入首页的效果
+    POST http://127.0.0.1:8000/users/login_redirect/
+    """
+    def post(self, request):
+        # 如果用户登陆成功后，将用户引导到首页
+        return redirect('/users/index_page/')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

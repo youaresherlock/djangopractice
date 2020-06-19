@@ -28,6 +28,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # 添加如下的路由配置信息:
+    # 设置子应用别名和子应用的子路由起别名 两种方法
+    # path('', include(('子路由', '子应用名字'), namespace='总路由别名，可以随便命名')),
+    # path(r'users/', include(('users.urls', "username"), namespace="username")),
     path(r'users/', include('users.urls')),
     path('', include('cookdemo.urls')),
     path('', include('classdemo.urls')),

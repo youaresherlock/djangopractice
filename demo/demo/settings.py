@@ -57,8 +57,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # 添加中间件
-    'users.middleware.my_middleware',  # 添加
-    'users.middleware.my_middleware2',  # 添加
+    # 'users.middleware.my_middleware',  # 添加
+    # 'users.middleware.my_middleware2',  # 添加
 ]
 
 ROOT_URLCONF = 'demo.urls'
