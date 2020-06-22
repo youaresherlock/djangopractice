@@ -8,6 +8,9 @@
 </head>
 <body>
     <!--模板中可以定义变量-->
-    <h1>{{ city }}</h1>
+{#    <h1>{{ city }}</h1>#}
+    {% for book in books %}
+        <li>{{ book.btitle }}</li>
+    {% endfor %}
 </body>
 </html>
