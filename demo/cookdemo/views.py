@@ -6,6 +6,7 @@ from django.http import HttpResponse
 def set_cookie(request):
     """设置cookie"""
     request.session['itcast'] = 'heima'
+    request.session.set_expiry(20)
     response = HttpResponse("set cookies")
     response.set_cookie("username", "clarence", 3600)
     return response

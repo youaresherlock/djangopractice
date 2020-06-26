@@ -154,7 +154,19 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
+    },
+    "session": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
+# Django默认的配置,存储在数据库中
+# SESSION_ENGINE = "django.contrib.sessions.backends.db"
+# 现在修改redis存储session
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# 存储session数据时使用的配置别名
+# SESSION_CACHE_ALIAS = "session"
 SESSION_CACHE_ALIAS = "default"
